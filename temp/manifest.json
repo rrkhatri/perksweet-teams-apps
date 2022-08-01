@@ -1,0 +1,43 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.11",
+  "id": "4f409490-a611-11ec-989e-3b0ff59e2e60",
+  "version": "0.0.1",
+  "packageName": "connector",
+  "developer": {
+    "name": "PerkSweet",
+    "websiteUrl": "https://www.perksweet.com",
+    "privacyUrl": "https://www.perksweet.com/privacy-policy",
+    "termsOfUseUrl": "https://www.perksweet.com/terms-of-service"
+  },
+  "name": {
+    "short": "PerkSweet",
+    "full": "PerkSweet | Employee Engagement and Rewards Platform"
+  },
+  "description": {
+    "short": "PerkSweet promotes positivity in your workplace",
+    "full": "PerkSweet lets you easily say thank you, congrats, farewell, great job, and promotes positivity in your workplace. The platform integrates with easily with Teams and partners with major merchants including Amazon, TJ Maxx, Target, Panera, and many more. PerkSweet offers a \"sweet\" of additional features such as unlimited digital group cards, automated networking capabilities, birthday/anniversary reminders, flexible teams, and much more. PerkSweet pricing starts at only $2 per user per month."
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
+  },
+  "accentColor": "#FFFFFF",
+  "connectors": [
+    {
+      "connectorId": "14003fe2-3090-4f43-85fa-ee77cbd99778",
+      "configurationUrl": "https://3e1e-103-238-108-204.ngrok.io/connectorConnector/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+      "scopes": [
+        "team"
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "3e1e-103-238-108-204.ngrok.io"
+  ],
+  "showLoadingIndicator": false
+}

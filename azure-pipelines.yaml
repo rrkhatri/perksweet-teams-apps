@@ -1,0 +1,66 @@
+variables:
+  # Id of the Microsoft Teams application
+  APPLICATION_ID: 4f409490-a611-11ec-989e-3b0ff59e2e60
+
+  PUBLIC_HOSTNAME: perksweet-teams.azurewebsites.net
+  BACKEND_ENDPOINT: https://dev.perksweet.com/api/configure-teams-webhook
+
+  # Package name of the Microsoft Teams application
+  PACKAGE_NAME: connector
+
+  # Port for local debugging
+  PORT: 3007
+
+  # ID of the Outlook Connector
+  CONNECTOR_ID: 14003fe2-3090-4f43-85fa-ee77cbd99778
+
+  # Debug settings, default logging "msteams"
+  DEBUG: msteams
+trigger:
+  - master
+stages:
+  - stage: Build
+    displayName: Build and package
+    jobs:
+      - job: Build
+        displayName: Build and package
+        pool:
+          vmImage: "ubuntu-latest"
+        steps:
+          - task: NodeTool@0
+            displayName: Use Node 14.x
+            inputs:
+              versionSpec: "14.x"
+          - script: |
+              sudo curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | sudo bash -s -- -b /usr/local/bin
+            displayName: Install node-prune
+          - script: |
+              npm install
+            displayName: npm install
+          - script: |
+              npm run build
+            displayName: npm run build
+          - script: |
+              npm prune --production
+            displayName: npm prune
+          - script: |
+              /usr/local/bin/node-prune
+            displayName: execute node-prune
+          - task: CopyFiles@2
+            displayName: Only publish files needed for runtime
+            inputs:
+              SourceFolder: "$(System.DefaultWorkingDirectory)"
+              Contents: |
+                dist/**
+                package.json
+                node_modules/**
+              TargetFolder: "$(Build.ArtifactStagingDirectory)"
+          - task: ArchiveFiles@2
+            inputs:
+              rootFolderOrFile: "$(Build.ArtifactStagingDirectory)"
+              includeRootFolder: false
+              archiveFile: "$(Build.ArtifactStagingDirectory)/$(appName).zip"
+              archiveType: zip
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)/$(appName).zip"

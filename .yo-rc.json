@@ -1,0 +1,9 @@
+{
+  "generator-teams": {
+    "promptValues": {
+      "developer": "PerkSweet"
+    },
+    "libraryName": "connector",
+    "generator-version": "3.5.0"
+  }
+}
